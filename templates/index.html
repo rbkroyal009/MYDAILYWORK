@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Spam SMS Detector 🚀</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Spam SMS Detector</title>
     <style>
         body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: white;
+            margin: 0;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
+        .card {
+            background: rgba(255, 255, 255, 0.15);
             padding: 40px;
             border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
+            width: 400px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
         h1 {
             margin-bottom: 10px;
         }
 
-        input {
-            width: 100%;
+        input[type="text"] {
+            width: 90%;
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
             margin-top: 15px;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         button {
-            margin-top: 15px;
-            padding: 10px 20px;
+            margin-top: 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 8px;
             background-color: #00c6ff;
             color: white;
-            transition: 0.3s;
+            font-size: 16px;
+            cursor: pointer;
         }
 
         button:hover {
@@ -58,76 +53,53 @@
 
         .result {
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .spam {
-            color: #ff4e50;
-        }
-
-        .ham {
-            color: #00ffae;
-        }
-
-        .suggestions {
-            margin-top: 20px;
-        }
-
-        .suggestions button {
+        .examples button {
             margin: 5px;
-            background-color: #ffcc00;
+            background: #ffd700;
             color: black;
         }
 
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            opacity: 0.8;
-        }
     </style>
 </head>
-
 <body>
 
-<div class="container">
-
+<div class="card">
     <h1>📩 Spam SMS Detector</h1>
     <p>AI Powered Message Classifier 🤖</p>
 
-    <form method="POST">
-        <input type="text" name="message" placeholder="Type your message here..." required>
+    <form action="/predict" method="POST">
+        <input type="text" name="message" placeholder="Type your message here..." value="{{ user_message or '' }}" required>
         <br>
         <button type="submit">🔍 Check Message</button>
     </form>
 
+    <div class="examples">
+        <p>💡 Try Examples:</p>
+        <button onclick="fillExample('Congratulations! You won a free iPhone! Click now!')">🎁 Free iPhone</button>
+        <button onclick="fillExample('Hey, are we meeting at 5 pm today?')">👋 Normal Chat</button>
+        <button onclick="fillExample('Your bank account is blocked. Update immediately.')">🚨 Bank Alert</button>
+    </div>
+
     {% if prediction %}
-        <div class="result 
-            {% if 'Spam' in prediction %}spam{% else %}ham{% endif %}">
+        <div class="result">
             {{ prediction }}
         </div>
     {% endif %}
 
-    <div class="suggestions">
-        <p>💡 Try Examples:</p>
-        <form method="POST">
-            <button name="message" value="Congratulations! You won a free iPhone. Click now!">
-                🎁 Free iPhone Offer
-            </button>
-            <button name="message" value="Hey, are we meeting at 6 pm today?">
-                👋 Normal Chat
-            </button>
-            <button name="message" value="URGENT! Your bank account is blocked. Verify now!">
-                🚨 Fake Bank Alert
-            </button>
-        </form>
-    </div>
-
-    <footer>
+    <p style="margin-top:20px;font-size:12px;">
         Built with ❤️ using Flask & Machine Learning
-    </footer>
-
+    </p>
 </div>
+
+<script>
+    function fillExample(text) {
+        document.querySelector("input[name='message']").value = text;
+    }
+</script>
 
 </body>
 </html>

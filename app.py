@@ -14,18 +14,23 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    message = request.form["message"]
-    data = vectorizer.transform([message])
-    prediction = model.predict(data)
+    message = request.form.get("message")
 
-    if prediction[0] == 1:
-        result = "🚨 SPAM"
+    if not message:
+        return render_template("index.html", prediction="⚠️ Please enter a message")
+
+    data = vectorizer.transform([message])
+    prediction = model.predict(data)[0]
+
+    if prediction == 1:
+        result = "🚨 SPAM MESSAGE"
     else:
         result = "✅ NOT SPAM"
 
-    return render_template("index.html", prediction=result)
+    return render_template("index.html", prediction=result, user_message=message)
 
-# ⚠ IMPORTANT FOR RENDER
+
+# Important for Render
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
