@@ -1,30 +1,31 @@
 from flask import Flask, render_template, request
 import pickle
-import re
-import string
+import os
 
 app = Flask(__name__)
 
-# Load saved model
+# Load trained model and vectorizer
 model = pickle.load(open("model.pkl", "rb"))
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
-def clean_text(text):
-    text = str(text).lower()
-    text = re.sub(r'\d+', '', text)
-    text = text.translate(str.maketrans('', '', string.punctuation))
-    return text
-
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def home():
-    prediction = ""
+    return render_template("index.html")
 
-    if request.method == "POST":
-        message = request.form["message"]
-        cleaned = clean_text(message)
-        vectorized = vectorizer.transform([cleaned])
-        result = model.predict(vectorized)
+@app.route("/predict", methods=["POST"])
+def predict():
+    message = request.form["message"]
+    data = vectorizer.transform([message])
+    prediction = model.predict(data)
 
-        prediction = "Spam ❌" if result[0] == 1 else "Not Spam ✅"
+    if prediction[0] == 1:
+        result = "🚨 SPAM"
+    else:
+        result = "✅ NOT SPAM"
 
-    return render_template("index.html", prediction=prediction)
+    return render_template("index.html", prediction=result)
+
+# ⚠ IMPORTANT FOR RENDER
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
