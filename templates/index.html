@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam SMS Detector</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 80px;
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 400px;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>📩 Spam SMS Detection</h1>
+    <p><b>Model Accuracy:</b> {{ accuracy }}</p>
+
+    <form method="POST">
+        <input type="text" name="message" placeholder="Enter your message here" required>
+        <br>
+        <button type="submit">Check Message</button>
+    </form>
+
+    <h2>{{ prediction }}</h2>
+</div>
+
+</body>
+</html>
