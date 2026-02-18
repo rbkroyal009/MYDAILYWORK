@@ -1,48 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Spam SMS Detector</title>
+    <title>Spam SMS Detector 🚀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
-            font-family: Arial;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
             text-align: center;
-            margin-top: 80px;
-            background-color: #f2f2f2;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
         }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
         input {
-            width: 400px;
-            padding: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        .box {
-            background: white;
-            padding: 30px;
-            display: inline-block;
+            width: 100%;
+            padding: 12px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px gray;
+            border: none;
+            margin-top: 15px;
+            font-size: 16px;
         }
-        h2 {
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #00c6ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0072ff;
+        }
+
+        .result {
             margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .spam {
+            color: #ff4e50;
+        }
+
+        .ham {
+            color: #00ffae;
+        }
+
+        .suggestions {
+            margin-top: 20px;
+        }
+
+        .suggestions button {
+            margin: 5px;
+            background-color: #ffcc00;
+            color: black;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.8;
         }
     </style>
 </head>
+
 <body>
 
-<div class="box">
-    <h1>📩 Spam SMS Detection</h1>
-    <p><b>Model Accuracy:</b> {{ accuracy }}</p>
+<div class="container">
+
+    <h1>📩 Spam SMS Detector</h1>
+    <p>AI Powered Message Classifier 🤖</p>
 
     <form method="POST">
-        <input type="text" name="message" placeholder="Enter your message here" required>
+        <input type="text" name="message" placeholder="Type your message here..." required>
         <br>
-        <button type="submit">Check Message</button>
+        <button type="submit">🔍 Check Message</button>
     </form>
 
-    <h2>{{ prediction }}</h2>
+    {% if prediction %}
+        <div class="result 
+            {% if 'Spam' in prediction %}spam{% else %}ham{% endif %}">
+            {{ prediction }}
+        </div>
+    {% endif %}
+
+    <div class="suggestions">
+        <p>💡 Try Examples:</p>
+        <form method="POST">
+            <button name="message" value="Congratulations! You won a free iPhone. Click now!">
+                🎁 Free iPhone Offer
+            </button>
+            <button name="message" value="Hey, are we meeting at 6 pm today?">
+                👋 Normal Chat
+            </button>
+            <button name="message" value="URGENT! Your bank account is blocked. Verify now!">
+                🚨 Fake Bank Alert
+            </button>
+        </form>
+    </div>
+
+    <footer>
+        Built with ❤️ using Flask & Machine Learning
+    </footer>
+
 </div>
 
 </body>
