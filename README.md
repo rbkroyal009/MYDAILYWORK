@@ -1,7 +1,3 @@
-Here is your **enhanced professional README.md** 🚀
-Copy this fully into your `README.md` file.
-
----
 
 # 📩 Spam SMS Detector 🔍🤖
 
